@@ -2,17 +2,12 @@ name: Summary
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
-  schedule:
-    - cron: 0 * * * *
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - edited
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -23,18 +18,17 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
+        with:
+          ref: ${{github.event.pull_request.head.ref}}
+          repository: ${{github.event.pull_request.head.repo.full_name}}
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
-          cache: 'npm'
       - run: npm install
       - run: npm test
 
-      - uses: reitermarkus/automerge@v1.5.2
-        with:
-          token: ${{ secrets.TOKEN }}
-          merge-method: merge
-          pull-request: ${{ github.event.inputs.pull-request }}
+      - uses: pascalgn/automerge-action@v0.14.3
+        env:
+          MERGE_LABELS: ""
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
