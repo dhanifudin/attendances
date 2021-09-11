@@ -21,11 +21,8 @@ jobs:
         with:
           node-version: '16'
           cache: 'npm'
-      - name: run install and test
-        working-directory: ./.github/test
-        run: |
-          npm install
-          npm test
+      - run: npm install --prefix ./.github/test
+      - run: npm test --prefix ./.github/test
 
       - uses: pascalgn/automerge-action@v0.14.3
         env:
