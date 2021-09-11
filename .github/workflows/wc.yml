@@ -42,4 +42,5 @@ jobs:
         with:
           token: ${{ secrets.TOKEN }}
           merge-method: merge
+          required-labels: unlabeled
           pull-request: ${{ github.event.inputs.pull-request }}
