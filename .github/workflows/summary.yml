@@ -21,8 +21,9 @@ jobs:
         with:
           node-version: '16'
           cache: 'npm'
-      - run: npm install --prefix ./.github/test
-      - run: npm test --prefix ./.github/test
+          cache-dependency-path: .github/test/package-lock.json
+      - run: npm install --prefix .github/test
+      - run: npm test --prefix .github/test
 
       - uses: pascalgn/automerge-action@v0.14.3
         env:
