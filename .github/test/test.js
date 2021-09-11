@@ -1,9 +1,9 @@
 const glob = require("glob");
 const { countCharacters } = require("wcmd/lib/utils");
-const MINIMAL_CHARS = 1000;
+const MINIMAL_CHARS = 300;
 
 (async () => {
-  glob("./attendances/**/*.md", (err, files) => {
+  glob("../../attendances/**/*.md", (err, files) => {
     files.forEach((file) => {
       const result = countCharacters(file);
       const chars = result.lines
@@ -11,7 +11,7 @@ const MINIMAL_CHARS = 1000;
         .reduce((l1, l2) => l1 + l2);
       if (chars < MINIMAL_CHARS) {
         console.error(
-          `${file} doesn't meet summary requirements (minimal ${MINIMAL_CHARS} chars): ${chars} chars`
+          `${file} doesn't meet summary requirements (minimum ${MINIMAL_CHARS} chars): ${chars} chars`
         );
         process.exit(1);
       }
