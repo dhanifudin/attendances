@@ -21,8 +21,10 @@ jobs:
         with:
           node-version: '16'
           cache: 'npm'
-      - run: npm install
-      - run: npm test
+        working-directory: ./.github/test
+        run: |
+          npm install
+          npm test
 
       - uses: pascalgn/automerge-action@v0.14.3
         env:
